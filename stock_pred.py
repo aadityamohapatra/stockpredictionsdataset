@@ -35,7 +35,6 @@ month = int(df.Date.iloc[0][5:7])
 sums = [0, 0, 0, 0, 0, 0]
 days = 0
 for i in range(df.shape[0]):
-    #breakpoint()
     if int(df.Date.iloc[i][5:7]) == month:
         for j in range(6):
             sums[j] += df.iloc[i][j+1]
@@ -43,8 +42,12 @@ for i in range(df.shape[0]):
     else:
         for j in range(6):
             sums[j] = sums[j]/days
-        final = [df.Date.iloc[i-1][:7]] + sums
-        rolling.append(final)
+        final = {'Date':df.Date.iloc[i-1][:7], 'Open': sums[0], 'High': sums[1],
+                'Low': sums[2], 'Close': sums[3], 'Adj Close': sums[4],
+                'Volume': sums[5]}
+        #breakpoint()
+        rolling = rolling.append(final, ignore_index = True)
         month = df.Date.iloc[i][5:7]
+        days = 0
 
 print(rolling)
